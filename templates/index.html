@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DG Working Time Calculator</title>
+    <!-- Include the Tailwind CSS stylesheet -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 min-h-screen flex items-center justify-center">
+    <div class="bg-gray-900 mx-auto max-w-md p-6 rounded-md shadow-md text-center">
+    <form action="/calculate" method="post" enctype="multipart/form-data">
+        <div class="bg-gray-900 mx-auto max-w-md p-6 text-center">
+            <h1 class="text-1xl font-bold text-indigo-500 mb-4">Diamond Shield™</h1>
+            <h1 class="text-3xl font-bold text-white mb-6">DG Working Time Calculator</h1>
+            <p class="text-white mb-6 ">Upload an Excel file to calculate the period.</p>
+            <label for="fileInput" class="sr-only text-white ">Select Excel File:</label>
+            <input id="fileInput" name="file" type="file" accept=".xls, .xlsx" class=" bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 w-full px-4 py-2 border border-white-300 rounded-md focus:outline-none focus:ring focus:border-indigo-900 text-indigo-500 ">
+            <p id="fileError" class="text-red-500 text-xs mt-1 hidden">Please select a valid Excel file.</p>
+            <button id="buttonCalculate" onclick="copyToClipboard()" type="submit" class="mt-6 bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-400 focus:outline-none focus:ring focus:border-indigo-500">Calculate</button>
+            
+        </div>
+    </form>
+    <div class="text-white font-semibold mb-6">
+        {% if result %}
+        Total Working Time:<br><p id="result">{{ result }}</p>
+        {% endif %} 
+    </div>
+    <span class="text-sm text-gray-500 sm:text-center dark:text-gray- mt-4">©2023</span>
+    </div>
+    
+    <div class="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
+      <div class="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+</body>
+<script>
+    function copyToClipboard() {
+        var fileInput = document.getElementById('fileInput');
+        var fileError = document.getElementById('fileError');
+        var resultContainer = document.getElementById('resultContainer');
+
+        // Reset error message
+        fileError.classList.add('hidden');
+
+        // Check if a file is selected
+        if (fileInput.files.length === 0 || !fileInput.files[0].name) {
+            fileError.classList.remove('hidden');
+            return;
+        }
+
+        var resultText = document.getElementById('result').textContent;
+        navigator.clipboard.writeText(resultText);
+    }
+    
+</script>
+</html>
